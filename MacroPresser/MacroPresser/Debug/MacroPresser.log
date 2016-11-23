@@ -1,0 +1,4 @@
+﻿  MacroPresser.cpp
+d:\projects\code\ffxiv\macropresser\macropresser.cpp(28): warning C4002: too many actual parameters for macro 'TEXT'
+  MacroPresser.vcxproj -> D:\Projects\Code\FFXIV\MacroPresser\Debug\MacroPresser.exe
+  MacroPresser.vcxproj -> D:\Projects\Code\FFXIV\MacroPresser\Debug\MacroPresser.pdb (Full PDB)
