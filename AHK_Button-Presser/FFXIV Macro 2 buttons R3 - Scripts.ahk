@@ -242,13 +242,13 @@ Craft()
 	PostMessage, 0x100, Macro1key,,, ahk_pid %pid1% 
 		Sleep 75
 	PostMessage, 0x101, Macro1key,,, ahk_pid %pid1% 
-	Macro1Sleeping := Macro1Sleep * 1100
+	Macro1Sleeping := Macro1Sleep * 1000
 	Sleep %Macro1Sleeping%
 	;WinActivate,  ahk_class FFXIVGAME,,,
 	PostMessage, 0x100, Macro2key,,, ahk_pid %pid1% 
 		Sleep 75
 	PostMessage, 0x101, Macro2key,,, ahk_pid %pid1% 
-	Macro2Sleeping := Macro2Sleep * 1100
+	Macro2Sleeping := Macro2Sleep * 1000
 	Sleep %Macro2Sleeping%
 	Sleep 2000
 	PostMessage, 0x100, Macro2key,,, ahk_pid %pid1% 
