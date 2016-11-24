@@ -32,7 +32,7 @@ global NumOfFoodUses = 0
 global TotalTimeCalc = 0
 global FoodLoopCalc = 0
 global NumOfFoodUsesCalc = 0
-global temp = 35
+global temp = 0
 global tempkey = 0
 global pid1 = 0
 global Mini = 0
@@ -82,8 +82,46 @@ MsgBox,0,HowTo, To run this macro press Ctrl + Alt + M or press Alt + Q to quit 
 ;WinActivate,  ahk_class FFXIVGAME,,,
 
 
-
 AppsKey::
+{
+
+Loop, 1
+	{
+		temp := temp + 1
+		SetFormat, IntegerFast, hex	
+		temp += 0  ; Sets Var (which previously contained 11) to be 0xb.
+		temp .= ""  ; Necessary due to the "fast" mode.
+		SetFormat, IntegerFast, d
+		PostMessage, 0x100, temp,,, ahk_pid %pid1% 
+			Sleep 50
+		PostMessage, 0x101, temp,,, ahk_pid %pid1%
+		Sleep 100
+		MsgBox,0,HexUp,%temp%,0.4
+	}
+	return
+}
+
+^AppsKey::
+{
+
+Loop, 1
+	{
+		temp := temp - 1
+		SetFormat, IntegerFast, hex	
+		temp += 0  ; Sets Var (which previously contained 11) to be 0xb.
+		temp .= ""  ; Necessary due to the "fast" mode.
+		SetFormat, IntegerFast, d
+		PostMessage, 0x100, temp,,, ahk_pid %pid1% 
+			Sleep 50
+		PostMessage, 0x101, temp,,, ahk_pid %pid1%
+		Sleep 100
+		MsgBox,0,HexDn,%temp%,0.4
+	}
+	return
+}
+
+
+^P::
 {
 	if(Mini = 0)
 	{
@@ -148,6 +186,10 @@ ParametersInput()
 	}
 	ChtoHex(Macro1)
 	Macro1key := tempkey
+	if Macro1 = =
+		Macro1key := 0xBB
+	if Macro1 = -
+		Macro1key := 0xBD
 	InputBox, Macro1Sleep, Macro 1 Wait, The time it takes in seconds to run your macro.
 	if ErrorLevel OR !Macro1Sleep 
 	{
@@ -162,6 +204,10 @@ ParametersInput()
 	}
 	ChtoHex(Macro2)
 	Macro2key := tempkey
+	if Macro2 = =
+		Macro2key := 0xBB
+	if Macro2 = -
+		Macro2key := 0xBD
 	InputBox, Macro2Sleep, Macro 2 Delay Time, The time it takes in seconds to run your macro.
 	if ErrorLevel OR !Macro2Sleep 
 	{
@@ -187,6 +233,10 @@ FoodSetup()
 	}
 	ChtoHex(Fooding)
 	Foodingkey := tempkey
+	if Fooding = =
+		Foodingkey := 0xBB
+	if Fooding = -
+		Foodingkey := 0xBD
 	InputBox, FoodTime, Duration of Food, The number of minutes the food last for (usually 30)., ,320,240,,,,,30
 	if ErrorLevel OR !FoodTime 
 	{

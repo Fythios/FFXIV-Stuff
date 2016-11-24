@@ -148,6 +148,10 @@ ParametersInput()
 	}
 	ChtoHex(Macro1)
 	Macro1key := tempkey
+	if Macro1 = =
+		Macro2key := 0xBB
+	if Macro1 = -
+		Macro2key := 0xBD
 	InputBox, Macro1Sleep, Macro 1 Wait, The time it takes in seconds to run your macro.
 	if ErrorLevel OR !Macro1Sleep 
 	{
@@ -162,6 +166,10 @@ ParametersInput()
 	}
 	ChtoHex(Macro2)
 	Macro2key := tempkey
+	if Macro2 = =
+		Macro2key := 0xBB
+	if Macro2 = -
+		Macro2key := 0xB
 	InputBox, Macro2Sleep, Macro 2 Delay Time, The time it takes in seconds to run your macro.
 	if ErrorLevel OR !Macro2Sleep 
 	{
@@ -187,6 +195,10 @@ FoodSetup()
 	}
 	ChtoHex(Fooding)
 	Foodingkey := tempkey
+	if Fooding = =
+		Foodingkey := 0xBB
+	if Fooding = -
+		Foodingkey := 0xBD
 	InputBox, FoodTime, Duration of Food, The number of minutes the food last for (usually 30)., ,320,240,,,,,30
 	if ErrorLevel OR !FoodTime 
 	{
