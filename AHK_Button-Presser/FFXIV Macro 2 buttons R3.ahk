@@ -22,6 +22,7 @@ global Macro2Sleep = 0
 global ItemsNum = 0
 global ItemsLeft = 0
 global Fooding = 0
+global Foodingkey = 0
 global FoodLoop = 0
 global FoodTime = 0
 global UsingFood = 0
@@ -185,7 +186,7 @@ FoodSetup()
 		return
 	}
 	ChtoHex(Fooding)
-	Macro2key := tempkey
+	Foodingkey := tempkey
 	InputBox, FoodTime, Duration of Food, The number of minutes the food last for (usually 30)., ,320,240,,,,,30
 	if ErrorLevel OR !FoodTime 
 	{
@@ -264,9 +265,9 @@ UseFood()
 		Sleep 75
 	PostMessage, 0x101, 0x1B,,, ahk_pid %pid1% 
 	Sleep 3000
-	PostMessage, 0x100, Fooding,,, ahk_pid %pid1% 
+	PostMessage, 0x100, Foodingkey,,, ahk_pid %pid1% 
 		Sleep 75
-	PostMessage, 0x101, Fooding,,, ahk_pid %pid1% 
+	PostMessage, 0x101, Foodingkey,,, ahk_pid %pid1% 
 	Sleep 4000
 	PostMessage, 0x100, 0x4E ,,, ahk_pid %pid1% 
 		Sleep 75
