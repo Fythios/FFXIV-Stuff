@@ -179,11 +179,13 @@ return
 FoodSetup()
 {
 	InputBox, Fooding, Food Button, The button number on the hotbar (0 - =) that is pressed to use food., ,320,240,,,,,=
-	if ErrorLevel OR !Fooding 
+	if ErrorLevel 
 	{
 		MsgBox,0,Error 1,Bleh!.,1
 		return
 	}
+	ChtoHex(Fooding)
+	Macro2key := tempkey
 	InputBox, FoodTime, Duration of Food, The number of minutes the food last for (usually 30)., ,320,240,,,,,30
 	if ErrorLevel OR !FoodTime 
 	{
