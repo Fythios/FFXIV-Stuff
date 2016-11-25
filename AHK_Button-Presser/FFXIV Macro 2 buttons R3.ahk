@@ -48,37 +48,15 @@ Loop, %id%
 MsgBox,0,Intro, This simply presses buttons for you`, make sure you have the needed mats!`nYou can press Alt + Q to quit or the Pause/Break key to pause the program at any time.`n-Ava,3
 MsgBox,0,Preparation, Please be on the crafting menu with the item you want to craft selected and the materials for it as well.,3
 
-StartMacro:
+
 ParametersInput()
 
-MsgBox,4,Requires Food?, Does your craft require the use of food?,
-IfMsgBox Yes
-{
-	FoodSetup()
-	UsingFood = 1
-}
-IfMsgBox No
-{
-	UsingFood = 0
-}
 
-CraftTime := Macro1Sleep + Macro2Sleep + 8
-TotalTimeCalc := ((CraftTime * ItemsNum) / 60 )
-TotalTime := Round(TotalTimeCalc,2)
-FoodLoopCalc := (FoodTime * 60) / CraftTime
-FoodLoop := Floor(FoodLoopCalc)
-NumOfFoodUsesCalc := ItemsNum / FoodLoop
-NumOfFoodUses := Ceil(NumOfFoodUsesCalc)
-ItemsLeft := ItemsNum
-
-MsgBox,4,Parameters, Your selections:`n`nFirst macro Button = %Macro1% `nMacro one wait time = %Macro1Sleep%`n`nSecond Macro Button = %Macro2%`nMacro two wait time = %Macro2Sleep%`n`nNumber of items to craft = %ItemsNum%`n`nNumber of Crafts per Food Cycle = %FoodLoop%`nTotal time to complete the craft = %TotalTime% minutes `n`n Is this correct?,
-	IfMsgBox No
-	{	
-		goto, StartMacro
-	}
 MsgBox,0,HowTo, To run this macro press Ctrl + Alt + M .`nPress the Menu Key (next to right ctrl) to minimize the game client`nYou can press Alt + Q to quit the program at any time.,3
 ;WinWait ,  ahk_class FFXIVGAME,,,,
 ;WinActivate,  ahk_class FFXIVGAME,,,
+return
+
 
 /*
 AppsKey::
@@ -172,7 +150,7 @@ ParametersInput()
 	if ErrorLevel
 	{
 		MsgBox,0,Error 1,This soon??,1
-		Gosub, StartMacro
+		return
 	}
 	ChtoHex(Macro1)
 	Macro1key := tempkey
@@ -184,13 +162,15 @@ ParametersInput()
 	if ErrorLevel OR !Macro1Sleep 
 	{
 		MsgBox,0,Error 1,Fine press cancel! you'll just have to do it all again.,1
-		Gosub, StartMacro
+		ParametersInput()
+		return
 	}
 	InputBox, Macro2, Macro Button 2, The button number for the second in-game macro you are using on the hotbar (1-9).
 	if ErrorLevel
 	{
 		MsgBox,0,Error 2,Why is this cancel button even here?.,1
-		Gosub, StartMacro
+		ParametersInput()
+		return
 	}
 	ChtoHex(Macro2)
 	Macro2key := tempkey
@@ -202,13 +182,40 @@ ParametersInput()
 	if ErrorLevel OR !Macro2Sleep 
 	{
 		MsgBox,0,Error 1,Bleh!.,1
-		Gosub, StartMacro
+		ParametersInput()
+		return
 	}
 	InputBox, ItemsNum, NumberOfItems, The total number of crafts you want to make.
 	if ErrorLevel OR !ItemsNum 
 	{
 		MsgBox,0,Error 1,Fine press cancel! you'll just have to do it all again.,1
-		Gosub, StartMacro
+		ParametersInput()
+	}
+	MsgBox,4,Requires Food?, Does your craft require the use of food?,
+	IfMsgBox Yes
+	{
+		FoodSetup()
+		UsingFood = 1
+	}
+	IfMsgBox No
+	{
+		FoodTime = 0
+		UsingFood = 0
+	}
+	CraftTime := Macro1Sleep + Macro2Sleep + 8
+	TotalTimeCalc := ((CraftTime * ItemsNum) / 60 )
+	TotalTime := Round(TotalTimeCalc,2)
+	FoodLoopCalc := (FoodTime * 60) / CraftTime
+	FoodLoop := Floor(FoodLoopCalc)
+	NumOfFoodUsesCalc := ItemsNum / FoodLoop
+	NumOfFoodUses := Ceil(NumOfFoodUsesCalc)
+	ItemsLeft := ItemsNum
+	
+	MsgBox,4,Parameters, Your selections:`n`nFirst macro Button = %Macro1% `nMacro one wait time = %Macro1Sleep%`n`nSecond Macro Button = %Macro2%`nMacro two wait time = %Macro2Sleep%`n`nNumber of items to craft = %ItemsNum%`n`nNumber of Crafts per Food Cycle = %FoodLoop%`nTotal time to complete the craft = %TotalTime% minutes `n`n Is this correct?,
+		IfMsgBox No
+	{	
+		ParametersInput()
+		return
 	}
 return
 }
