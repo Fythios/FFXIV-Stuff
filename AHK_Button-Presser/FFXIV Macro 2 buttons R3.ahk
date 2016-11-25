@@ -76,7 +76,7 @@ MsgBox,4,Parameters, Your selections:`n`nFirst macro Button = %Macro1% `nMacro o
 	{	
 		goto, StartMacro
 	}
-MsgBox,0,HowTo, To run this macro press Ctrl + Alt + M or press Alt + Q to quit at any time.,2
+MsgBox,0,HowTo, To run this macro press Ctrl + Alt + M .`nPress the Menu Key (next to right ctrl) to minimize the game client`nYou can press Alt + Q to quit the program at any time.,3
 ;WinWait ,  ahk_class FFXIVGAME,,,,
 ;WinActivate,  ahk_class FFXIVGAME,,,
 
@@ -172,7 +172,7 @@ ParametersInput()
 	if ErrorLevel
 	{
 		MsgBox,0,Error 1,This soon??,1
-		return
+		Gosub, StartMacro
 	}
 	ChtoHex(Macro1)
 	Macro1key := tempkey
@@ -184,13 +184,13 @@ ParametersInput()
 	if ErrorLevel OR !Macro1Sleep 
 	{
 		MsgBox,0,Error 1,Fine press cancel! you'll just have to do it all again.,1
-		return
+		Gosub, StartMacro
 	}
 	InputBox, Macro2, Macro Button 2, The button number for the second in-game macro you are using on the hotbar (1-9).
 	if ErrorLevel
 	{
 		MsgBox,0,Error 2,Why is this cancel button even here?.,1
-		return
+		Gosub, StartMacro
 	}
 	ChtoHex(Macro2)
 	Macro2key := tempkey
@@ -202,13 +202,13 @@ ParametersInput()
 	if ErrorLevel OR !Macro2Sleep 
 	{
 		MsgBox,0,Error 1,Bleh!.,1
-		return
+		Gosub, StartMacro
 	}
 	InputBox, ItemsNum, NumberOfItems, The total number of crafts you want to make.
 	if ErrorLevel OR !ItemsNum 
 	{
 		MsgBox,0,Error 1,Fine press cancel! you'll just have to do it all again.,1
-		return
+		Gosub, StartMacro
 	}
 return
 }
