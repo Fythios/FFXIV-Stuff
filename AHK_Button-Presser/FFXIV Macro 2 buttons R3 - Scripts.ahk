@@ -35,7 +35,6 @@ global NumOfFoodUsesCalc = 0
 global temp = 35
 global tempkey = 0
 global pid1 = 0
-global Mini = 0
 
 WinGet, id, list, ahk_class FFXIVGAME
 Loop, %id%
@@ -85,16 +84,7 @@ MsgBox,0,HowTo, To run this macro press Ctrl + Alt + M or press Alt + Q to quit 
 
 AppsKey::
 {
-	if(Mini = 0)
-	{
-		WinMinimize, FINAL FANTASY XIV
-		Mini = 1
-	}
-	else
-	{
-		WinRestore, FINAL FANTASY XIV
-		Mini = 0
-	}
+	WinMinimize, FINAL FANTASY XIV
 	return
 }
 
