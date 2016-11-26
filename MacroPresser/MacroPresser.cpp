@@ -18,12 +18,13 @@ int main()
 	
 	for (int i=0; i<10; i++)
 	{
-		//PostMessage(hFFXIV, 0x100, 0x48, 0);
 		Sleep(100);
+		//PostMessage(hFFXIV, 0x100, 0x48, 0);
+		Sleep(50);
 		PostMessage(hFFXIV, 0x101, 0x48, 0);
 		Sleep(100);
 		//PostMessage(hFFXIV, 0x100, 0x49, 0);
-		Sleep(100);
+		Sleep(50);
 		PostMessage(hFFXIV, 0x101, 0x49, 0);
 	}
 	std::cout << "Press any key to quit.\n";

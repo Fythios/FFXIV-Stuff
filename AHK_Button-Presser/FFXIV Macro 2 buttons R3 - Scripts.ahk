@@ -261,7 +261,11 @@ Craft()
 	PostMessage, 0x101, Macro2key,,, ahk_pid %pid1% 
 	Macro2Sleeping := Macro2Sleep * 1000
 	Sleep %Macro2Sleeping%
-	Sleep 2200
+	Sleep 2000
+	PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
+		Sleep 75
+	PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+	Sleep 100
 	PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
 		Sleep 75
 	PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
