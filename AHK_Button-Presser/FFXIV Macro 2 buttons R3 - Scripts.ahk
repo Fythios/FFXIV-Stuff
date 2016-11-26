@@ -137,7 +137,7 @@ ParametersInput()
 	if Macro2 = =
 		Macro2key := 0xBB
 	if Macro2 = -
-		Macro2key := 0xB
+		Macro2key := 0xBD
 	InputBox, Macro2Sleep, Macro 2 Delay Time, The time it takes in seconds to run your macro.
 	if ErrorLevel OR !Macro2Sleep 
 	{

@@ -1,63 +1,49 @@
-#include <conio.h>
 #include <iostream>
 #include <windows.h>
-#include <winuser.h>
-#include <stdio.h>
+//#include <conio.h>
+//#include <winuser.h>
+//#include <stdio.h>
 
 
-struct extraKeyInfo
-{
-	unsigned short repeatCount;
-	unsigned char scanCode;
-	bool extendedKey, prevKeyState, transitionState;
-
-	operator unsigned int()
-	{
-		return repeatCount | (scanCode << 16) | (extendedKey << 24) |
-			(prevKeyState << 30) | (transitionState << 31);
-	}
-};
-
+int ChtoHex(char Mnum);
 
 int main()
 {
-
-
-	Sleep(5000);
-//	HWND Find = ::FindWindowEx(0, 0, "FINAL FANTASY XIV", 0);
-	HWND hFFXIV = FindWindowEx(NULL, NULL, TEXT("RAPTURE", "FINAL FANTASY XIV"), NULL);
-//	HWND hFFXIV = FindWindow(TEXT("FINAL FANTASY XIV"), 0);
+	Sleep(1000);
+	HWND hFFXIV = FindWindow(TEXT("FFXIVGAME"), TEXT("FINAL FANTASY XIV"));
 
 	if (!hFFXIV)
-		std::cout << "FINAL FANTASY XIV was not found!\n";
+		std::cout << "FINAL FANTASY XIV is not running or not found!\n";
 	else
+	
+	for (int i=0; i<10; i++)
 	{
-		HWND hEdit = FindWindowEx(hFFXIV, NULL, TEXT("Edit"), NULL);
-
-		if (!hEdit)
-			std::cout << "FINAL FANTASY XIV's edit control was not found!\n";
-		else
-		{
-			SetForegroundWindow(hFFXIV);
-
-			for (char ch = 'a'; ch <= 'z'; ch++) // Output a-z in FINAL FANTASY XIV
-			{
-				short vkCode = LOBYTE(VkKeyScan(ch));
-
-				extraKeyInfo lParam = {};
-				lParam.scanCode = MapVirtualKey(vkCode, MAPVK_VK_TO_VSC);
-
-				PostMessage(hEdit, WM_KEYDOWN, vkCode, lParam);
-
-				lParam.repeatCount = 1;
-				lParam.prevKeyState = true;
-				lParam.transitionState = true;
-
-				PostMessage(hEdit, WM_KEYUP, vkCode, lParam);
-				Sleep(100);
-			}
-		}
+		//PostMessage(hFFXIV, 0x100, 0x48, 0);
+		Sleep(100);
+		PostMessage(hFFXIV, 0x101, 0x48, 0);
+		Sleep(100);
+		//PostMessage(hFFXIV, 0x100, 0x49, 0);
+		Sleep(100);
+		PostMessage(hFFXIV, 0x101, 0x49, 0);
 	}
+	std::cout << "Press any key to quit.\n";
 	std::cin.get();
 	return 0;
 }
+
+
+/*
+ChtoHex(Mnum)
+{
+		Mnum == asc(char)
+		char_hex : = char_number
+
+		; Convert a decimal integer to hexadecimal :
+		SetFormat, IntegerFast, hex
+		char_hex += 0; Sets char_number to its hex value.
+		char_hex . = ""; Necessary due to the "fast" mode.
+		SetFormat, IntegerFast, d
+
+		tempkey : = char_hex
+	}
+*/
