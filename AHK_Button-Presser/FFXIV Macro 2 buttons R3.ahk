@@ -45,7 +45,7 @@ Loop, %id%
    pid%A_Index% := this_pid
 }
 
-MsgBox, %this_pid%
+;MsgBox, %this_pid%
 
 MsgBox,0,Intro, This simply presses buttons for you`, make sure you have the needed mats!`nYou can press Alt + Q to quit or the Pause/Break key to pause the program at any time.`n-Ava,3
 MsgBox,0,Preparation, Please be on the crafting menu with the item you want to craft selected and the materials for it as well.,3
