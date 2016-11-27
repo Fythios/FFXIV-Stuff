@@ -295,8 +295,7 @@ Craft()
 		Sleep 75
 	PostMessage, 0x101, Macro2key,,, ahk_pid %pid1% 
 	Macro2Sleeping := Macro2Sleep * 1000
-	Sleep %Macro2Sleeping%	
-	ItemsLeft-=1
+	Sleep %Macro2Sleeping%
 	Sleep 2000
 	Numpad0Key()
 	Sleep 100
