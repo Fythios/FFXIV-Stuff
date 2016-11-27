@@ -6,6 +6,7 @@
 ; 20161107 - Fixed some text messages
 ; 20161112 - Added choice for individual retainers
 ; 20161122 - changed output style from Send/SendRaw to PostMessage
+; 20161127 - added key functions to make it easier to follow
 ; 
 ;
 ; Simple script to send your retainers back out on the same venture while you are away!
@@ -14,7 +15,7 @@
 ;
 
 global pausestatus = 0
-global Mini = 0
+
 
 MsgBox,0,Intro, This simply presses buttons for you`, make you they have already started a venture you want to repeat!`nYou can press Alt + Q to quit or the Pause/Break key to pause the program at any time.`n-Ava,3
 Start:
@@ -59,89 +60,53 @@ else
 						SplashTextOff
 						sleep 2000
 						retainer := 4
-						WinWait, ahk_class FFXIVGAME,,,,
-						WinActivate, ahk_class FFXIVGAME,,,
 						Sleep 2000
-						PostMessage, 0x100, 0x1B,,, ahk_pid %pid1% 
-							Sleep 75
-						PostMessage, 0x101, 0x1B,,, ahk_pid %pid1% 
+						EscKey() 
 						Sleep 1000
-						PostMessage, 0x100, 0x62,,, ahk_pid %pid1% 
-							Sleep 75
-						PostMessage, 0x101, 0x62,,, ahk_pid %pid1% 
+						Numpad2Key()
 						Sleep 1000
-						PostMessage, 0x100, 0x1B,,, ahk_pid %pid1% 
-							Sleep 75
-						PostMessage, 0x101, 0x1B,,, ahk_pid %pid1% 
+						EscKey()
 						Sleep 1000
 						Loop, %Retainers_sp0%
 						{
 							Retainer_Indx := Retainers_sp%a_index%
 							Retainer_Num := Retainer_Indx - 1
-							PostMessage, 0x100, 0x58,,, ahk_pid %pid1% 
+							PostMessage, 0x100, 0x58,,, ahk_pid FFXIVGAME 
 							Sleep 300
-							PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+							Numpad0Key()
 							Sleep 500
-							PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+							Numpad0Key()
 							sleep 3000
 							Loop, %Retainer_Num%.
 							{
-								PostMessage, 0x100, 0x62,,, ahk_pid %pid1% 
-								Sleep 75
-								PostMessage, 0x101, 0x62,,, ahk_pid %pid1% 
+								Numpad2Key()
 								Sleep 200
 							}
-							PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+							Numpad0Key()
 							sleep 2300
-							PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+							Numpad0Key()
 							sleep 1200
 							Loop, 5
 							{
-								PostMessage, 0x100, 0x62,,, ahk_pid %pid1% 
-								Sleep 75
-								PostMessage, 0x101, 0x62,,, ahk_pid %pid1% 
+								Numpad2Key()
 								Sleep 750
 							}
-							PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+							Numpad0Key() 
 							Sleep 1000
-							PostMessage, 0x100, 0x64,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x64,,, ahk_pid %pid1% 
+							Numpad4Key()
 							Sleep 1000
-							PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+							Numpad0Key()
 							Sleep 1000
-							PostMessage, 0x100, 0x64,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x64,,, ahk_pid %pid1% 
+							Numpad4Key() 
 							Sleep 1000
-							PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+							Numpad0Key() 
 							Sleep 1000
-							PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+							Numpad0Key()
 							Sleep 1000
-							PostMessage, 0x100, 0x1B,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x1B,,, ahk_pid %pid1% 
+							EscKey()
 							Sleep 1000
-							PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-								Sleep 75
-							PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
-							PostMessage, 0x101, 0x58,,, ahk_pid %pid1% 
+							Numpad0Key()
+							PostMessage, 0x101, 0x58,,, ahk_pid FFXIVGAME 
 							Sleep 2000
 						}
 						Sleep 2000
@@ -160,6 +125,9 @@ else
 	}
 }
 ExitApp
+
+
+;----------------HotKeys----------------
 
 !q::ExitApp
 
@@ -182,15 +150,57 @@ Pause::
 
 AppsKey::
 {
-	if(Mini = 0)
-	{
-		WinMinimize, FINAL FANTASY XIV
-		Mini = 1
-	}
-	else
-	{
-		WinRestore, FINAL FANTASY XIV
-		Mini = 0
-	}
+	WinMinimize, FINAL FANTASY XIV
 	return
+}
+;----------------HotKeysEND-------------
+
+
+Numpad0Key()
+{
+	PostMessage, 0x100, 0x60,,, ahk_pid FFXIVGAME 
+		Sleep 50
+	PostMessage, 0x101, 0x60,,, ahk_pid FFXIVGAME
+}
+
+Numpad8Key()
+{
+	PostMessage, 0x100, 0x68,,, ahk_pid FFXIVGAME 
+		Sleep 50
+	PostMessage, 0x101, 0x68,,, ahk_pid FFXIVGAME
+}
+
+Numpad2Key()
+{
+	PostMessage, 0x100, 0x62,,, ahk_pid FFXIVGAME 
+		Sleep 50
+	PostMessage, 0x101, 0x62,,, ahk_pid FFXIVGAME
+}
+
+Numpad6Key()
+{
+	PostMessage, 0x100, 0x66,,, ahk_pid FFXIVGAME 
+		Sleep 50
+	PostMessage, 0x101, 0x66,,, ahk_pid FFXIVGAME
+}
+
+Numpad4Key()
+{
+	PostMessage, 0x100, 0x64,,, ahk_pid FFXIVGAME 
+		Sleep 50
+	PostMessage, 0x101, 0x64,,, ahk_pid FFXIVGAME
+}
+
+EscKey()
+{
+	PostMessage, 0x100, 0x1B,,, ahk_pid FFXIVGAME 
+		Sleep 50
+	PostMessage, 0x101, 0x1B,,, ahk_pid FFXIVGAME
+}
+
+NKey()
+{
+	PostMessage, 0x100, 0x4E ,,, ahk_pid FFXIVGAME 
+		Sleep 75
+	PostMessage, 0x101, 0x4E ,,, ahk_pid FFXIVGAME 
 }

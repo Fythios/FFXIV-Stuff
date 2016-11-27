@@ -6,6 +6,7 @@
 ; 20161110 - Added check after all parameters are entered to start input over
 ; 20161112 - Re-wrote program to used fucntion and added crafting food usage
 ; 20161122 - changed output style from Send/SendRaw to PostMessage
+; 20161127 - added key functions to make it easier to follow
 ;
 ; Simple script to press buttons in anything
 ; The amount of time to pause (in milliseconds) between 0 and 2147483647 (24 days), which can be an expression.
@@ -44,6 +45,7 @@ Loop, %id%
    pid%A_Index% := this_pid
 }
 
+MsgBox, %this_pid%
 
 MsgBox,0,Intro, This simply presses buttons for you`, make sure you have the needed mats!`nYou can press Alt + Q to quit or the Pause/Break key to pause the program at any time.`n-Ava,3
 MsgBox,0,Preparation, Please be on the crafting menu with the item you want to craft selected and the materials for it as well.,3
@@ -58,7 +60,8 @@ MsgBox,0,HowTo, To run this macro press Ctrl + Alt + M .`nPress the Menu Key (ne
 return
 
 
-/*
+/* 
+//Used to figure out what keys are being pressed in game with their hex value
 AppsKey::
 {
 
@@ -275,18 +278,12 @@ Craft()
 {
 	SplashTextOn, 200, 50, Items To Craft, There are %ItemsLeft% left to make.
 	;WinActivate,  ahk_class FFXIVGAME,,,
-	PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-		Sleep 75
-	PostMessage, 0x101, 0x60,,, ahk_pid %pid1%
+	Numpad0Key()
 	Sleep 500
-	PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-		Sleep 75
-	PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+	Numpad0Key()
 	Sleep 850
 	SplashTextOff
-	PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-		Sleep 75
-	PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+	Numpad0Key() 
 	Sleep 1650
 	;WinActivate,  ahk_class FFXIVGAME,,,
 	PostMessage, 0x100, Macro1key,,, ahk_pid %pid1% 
@@ -308,21 +305,15 @@ Craft()
 UseFood()
 {
 	Sleep 2000
-	PostMessage, 0x100, 0x1B,,, ahk_pid %pid1% 
-		Sleep 75
-	PostMessage, 0x101, 0x1B,,, ahk_pid %pid1% 
+	EscKey()
 	Sleep 3000
 	PostMessage, 0x100, Foodingkey,,, ahk_pid %pid1% 
 		Sleep 75
 	PostMessage, 0x101, Foodingkey,,, ahk_pid %pid1% 
 	Sleep 4000
-	PostMessage, 0x100, 0x4E ,,, ahk_pid %pid1% 
-		Sleep 75
-	PostMessage, 0x101, 0x4E ,,, ahk_pid %pid1% 
+	NKey()
 	Sleep 500
-	PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
-		Sleep 75
-	PostMessage, 0x101, 0x60,,, ahk_pid %pid1% 
+	Numpad0Key()
 	Sleep 1000
 }
 
@@ -346,4 +337,51 @@ ChtoHex(text)
 return
 }
 
+Numpad0Key()
+{
+	PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
+		Sleep 50
+	PostMessage, 0x101, 0x60,,, ahk_pid %pid1%
+}
 
+Numpad8Key()
+{
+	PostMessage, 0x100, 0x68,,, ahk_pid %pid1% 
+		Sleep 50
+	PostMessage, 0x101, 0x68,,, ahk_pid %pid1%
+}
+
+Numpad2Key()
+{
+	PostMessage, 0x100, 0x62,,, ahk_pid %pid1% 
+		Sleep 50
+	PostMessage, 0x101, 0x62,,, ahk_pid %pid1%
+}
+
+Numpad6Key()
+{
+	PostMessage, 0x100, 0x66,,, ahk_pid %pid1% 
+		Sleep 50
+	PostMessage, 0x101, 0x66,,, ahk_pid %pid1%
+}
+
+Numpad4Key()
+{
+	PostMessage, 0x100, 0x64,,, ahk_pid %pid1% 
+		Sleep 50
+	PostMessage, 0x101, 0x64,,, ahk_pid %pid1%
+}
+
+EscKey()
+{
+	PostMessage, 0x100, 0x1B,,, ahk_pid %pid1% 
+		Sleep 50
+	PostMessage, 0x101, 0x1B,,, ahk_pid %pid1%
+}
+
+NKey()
+{
+	PostMessage, 0x100, 0x4E ,,, ahk_pid %pid1% 
+		Sleep 75
+	PostMessage, 0x101, 0x4E ,,, ahk_pid %pid1% 
+}
