@@ -1,8 +1,11 @@
 ; FFXIV Retainer Venture Re-Assigning Macro
+;	Made for Mitsy
 ;
 ; Modified from original made in 20150318
 ; 20161031 - Added Pause script and cleaned up
 ; 20161101 - Throws an error if input is left blank.
+; 20161107 - Fixed some text messages
+; 20161112 - Added choice for individual retainers
 ; 20161122 - changed output style from Send/SendRaw to PostMessage
 ; 20161127 - added key functions to make it easier to follow
 ; 
@@ -13,6 +16,7 @@
 ;
 
 global pausestatus = 0
+global pid1 = 0
 
 WinGet, id, list, ahk_class FFXIVGAME
 Loop, %id%

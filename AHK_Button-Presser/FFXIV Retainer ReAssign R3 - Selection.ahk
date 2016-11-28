@@ -15,7 +15,15 @@
 ;
 
 global pausestatus = 0
+global pid1 = 0
 
+WinGet, id, list, ahk_class FFXIVGAME
+Loop, %id%
+{
+   this_id := id%A_Index%
+   WinGet, this_pid, PID, ahk_id %this_id%
+   pid%A_Index% := this_pid
+}
 
 MsgBox,0,Intro, This simply presses buttons for you`, make you they have already started a venture you want to repeat!`nYou can press Alt + Q to quit or the Pause/Break key to pause the program at any time.`n-Ava,3
 Start:
@@ -71,7 +79,7 @@ else
 						{
 							Retainer_Indx := Retainers_sp%a_index%
 							Retainer_Num := Retainer_Indx - 1
-							PostMessage, 0x100, 0x58,,, ahk_pid FFXIVGAME 
+							PostMessage, 0x100, 0x58,,, ahk_pid %pid1% 
 							Sleep 300
 							Numpad0Key()
 							Sleep 500
@@ -106,7 +114,7 @@ else
 							EscKey()
 							Sleep 1000
 							Numpad0Key()
-							PostMessage, 0x101, 0x58,,, ahk_pid FFXIVGAME 
+							PostMessage, 0x101, 0x58,,, ahk_pid %pid1% 
 							Sleep 2000
 						}
 						Sleep 2000
@@ -158,49 +166,49 @@ AppsKey::
 
 Numpad0Key()
 {
-	PostMessage, 0x100, 0x60,,, ahk_pid FFXIVGAME 
+	PostMessage, 0x100, 0x60,,, ahk_pid %pid1% 
 		Sleep 50
-	PostMessage, 0x101, 0x60,,, ahk_pid FFXIVGAME
+	PostMessage, 0x101, 0x60,,, ahk_pid %pid1%
 }
 
 Numpad8Key()
 {
-	PostMessage, 0x100, 0x68,,, ahk_pid FFXIVGAME 
+	PostMessage, 0x100, 0x68,,, ahk_pid %pid1% 
 		Sleep 50
-	PostMessage, 0x101, 0x68,,, ahk_pid FFXIVGAME
+	PostMessage, 0x101, 0x68,,, ahk_pid %pid1%
 }
 
 Numpad2Key()
 {
-	PostMessage, 0x100, 0x62,,, ahk_pid FFXIVGAME 
+	PostMessage, 0x100, 0x62,,, ahk_pid %pid1% 
 		Sleep 50
-	PostMessage, 0x101, 0x62,,, ahk_pid FFXIVGAME
+	PostMessage, 0x101, 0x62,,, ahk_pid %pid1%
 }
 
 Numpad6Key()
 {
-	PostMessage, 0x100, 0x66,,, ahk_pid FFXIVGAME 
+	PostMessage, 0x100, 0x66,,, ahk_pid %pid1% 
 		Sleep 50
-	PostMessage, 0x101, 0x66,,, ahk_pid FFXIVGAME
+	PostMessage, 0x101, 0x66,,, ahk_pid %pid1%
 }
 
 Numpad4Key()
 {
-	PostMessage, 0x100, 0x64,,, ahk_pid FFXIVGAME 
+	PostMessage, 0x100, 0x64,,, ahk_pid %pid1% 
 		Sleep 50
-	PostMessage, 0x101, 0x64,,, ahk_pid FFXIVGAME
+	PostMessage, 0x101, 0x64,,, ahk_pid %pid1%
 }
 
 EscKey()
 {
-	PostMessage, 0x100, 0x1B,,, ahk_pid FFXIVGAME 
+	PostMessage, 0x100, 0x1B,,, ahk_pid %pid1% 
 		Sleep 50
-	PostMessage, 0x101, 0x1B,,, ahk_pid FFXIVGAME
+	PostMessage, 0x101, 0x1B,,, ahk_pid %pid1%
 }
 
 NKey()
 {
-	PostMessage, 0x100, 0x4E ,,, ahk_pid FFXIVGAME 
+	PostMessage, 0x100, 0x4E ,,, ahk_pid %pid1% 
 		Sleep 75
-	PostMessage, 0x101, 0x4E ,,, ahk_pid FFXIVGAME 
+	PostMessage, 0x101, 0x4E ,,, ahk_pid %pid1% 
 }
