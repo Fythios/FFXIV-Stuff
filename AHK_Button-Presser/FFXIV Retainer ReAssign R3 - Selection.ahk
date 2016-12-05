@@ -56,14 +56,14 @@ else
 				{
 					MsgBox,0,Notice!, To run this macro press Ctrl + Alt + V or press Alt + Q to quit at any time.,2		
 					^!v::
-					SplashTextOn, 200, 50, Start, The Venture Re-Assigning Macro is starting,`nwaiting %initime% minutes for completion.
+					SplashTextOn, 240,80, Start, The Venture Re-Assigning Macro is starting,`nwaiting %initime% minutes for completion.
 					sleep 2000
 					SplashTextOff
 					starttime := initime * 60000
 					Sleep %starttime%
 					Loop, %numofventures%
 					{
-						SplashTextOn, 200, 50, Start, The ReAssign Macro is starting!!
+						SplashTextOn, 180,60, Start, The ReAssign Macro is starting!!
 						sleep 1000
 						SplashTextOff
 						sleep 2000

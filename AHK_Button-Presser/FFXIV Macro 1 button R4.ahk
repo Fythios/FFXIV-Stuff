@@ -13,6 +13,10 @@
 ; 1 sec = 1000, 1 min = 60000, 1 hour = 3600000, (33s * 100) = 3300000
 ;
 
+IfNotExist, Image.jpg
+	FileInstall, images/IMG_1861.jpg, TestImg
+  
+
 global PauseStatus = 0
 global Macro1 = 0
 global Macro1key = 0
@@ -91,6 +95,14 @@ Pause::
 		PauseStatus = 0
 	}
 	return
+}
+
+;Help / How to use and setup directions
+^h::
+{
+	Gui, Add, Picture,, TestImg
+	Gui, Add, Button, Default, OK
+	Gui, Show, ,
 }
 
 

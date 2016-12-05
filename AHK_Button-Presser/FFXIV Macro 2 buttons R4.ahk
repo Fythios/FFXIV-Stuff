@@ -13,17 +13,21 @@
 ; 1 sec = 1000, 1 min = 60000, 1 hour = 3600000, (33s * 100) = 3300000
 ;
 
+IfNotExist, Image.jpg
+	FileInstall, images/CraftingLog.jpg, CraftingLog
+
+
 global PauseStatus = 0
-global Macro1 = 0
-global Macro1key = 0
-global Macro1Sleep = 0
-global Macro2 = 0
-global Macro2key = 0
-global Macro2Sleep = 0
-global ItemsNum = 0
+global vvMacro1 = 0
+global vvMacro1key = 0
+global vvMacro1Sleep = 0
+global vMacro2 = 0
+global vMacro2key = 0
+global vMacro2Sleep = 0
+global vItemsNum = 0
 global ItemsLeft = 0
-global Fooding = 0
-global Foodingkey = 0
+global vFooding = 0
+global vFoodingkey = 0
 global FoodLoop = 0
 global FoodTime = 0
 global UsingFood = 0
@@ -46,14 +50,43 @@ Loop, %id%
 }
 
 
-MsgBox,0,Intro, This simply presses buttons for you`, make sure you have the needed mats!`nYou can press Alt + Q to quit or the Pause/Break key to pause the program at any time.`n-Ava,3
-MsgBox,0,Preparation, Please be on the crafting menu with the item you want to craft selected and the materials for it as well.,3
+
+;MsgBox, %this_pid%
+
+;MsgBox,0,Intro, This simply presses buttons for you`, make sure you have the needed mats!`nYou can press Alt + Q to quit or the Pause/Break key to pause the program at any time.`n-Ava,5
+;MsgBox,0,Preparation, Please be on the crafting menu with the item you want to craft selected and the materials for it as well.`nPress Ctrl+H for help on how to use and setup this program,5
+
+Gui, Add, Picture, x0 y0 w450 h300, CraftingLog
+
+Gui, Add, Text, cRed, First Macro Button.
+Gui, Add, DropDownList, vMacro1, 1|2|3|4|5|6|7|8|9|0|-|=
+
+Gui, Add, Text,, First Macro wait time:
+Gui, Add, Edit, R1 vMacro1Sleep
+GuiControl, MoveDraw, vMacro1Sleep, x10 y20 w200 h100
+
+Gui, Add, Text, cRed, Second Macro Button.
+Gui, Add, DropDownList, vMacro2, 1|2|3|4|5|6|7|8|9|0|-|=
 
 
-ParametersInput()
+Gui, Add, Text,, Second Macro wait time:
+Gui, Add, Edit, R1 vMacro2Sleep
+
+Gui, Add, Text,, Number of crafts:
+Gui, Add, Edit, R1 vItemsNum
+
+Gui, Add, Checkbox, vFooding, Does this craft require Food?
+Gui, Add, Checkbox, vCollectable, Is this a Collectable?
+
+Gui, Add, Button, Default, &OK
+
+Gui, Show, ,
 
 
-MsgBox,0,HowTo, To run this macro press Ctrl + Alt + M .`nPress the Menu Key (next to right ctrl) to minimize the game client`nYou can press Alt + Q to quit the program at any time.,3
+;ParametersInput()
+
+
+;MsgBox,0,HowTo, To run this macro press Ctrl + Alt + M .`nPress the Menu Key (next to right ctrl) to minimize the game client`nYou can press Alt + Q to quit the program at any time.,3
 ;WinWait ,  ahk_class FFXIVGAME,,,,
 ;WinActivate,  ahk_class FFXIVGAME,,,
 return
@@ -100,12 +133,14 @@ Loop, 1
 }
 */
 
+;----------------HotKeys----------------
+!q::ExitApp
+
 AppsKey::
 {
 	WinMinimize, FINAL FANTASY XIV
 	return
 }
-
 
 ^!m::
 {
@@ -118,11 +153,6 @@ AppsKey::
 	}
 	ExitApp
 }
-
-
-;----------------HotKeys----------------
-
-!q::ExitApp
 
 Pause::
 {
@@ -140,6 +170,17 @@ Pause::
 	}
 	return
 }
+
+;Help / How to use and setup directions
+^h::
+{
+	Gui, Add, Picture, x0 y0 w480 h480, TestImg
+	Gui, Add, Button, Default, &OK
+	Gui, Add, DropDownList, vColorChoice, Black|White|Red|Green|Blue
+	Gui, Show, ,
+}
+
+
 ;----------------HotKeysEND-------------
 
 
@@ -148,47 +189,47 @@ Pause::
 
 ParametersInput()
 {
-	InputBox, Macro1, Macro Button 1, The button number for the first in-game macro you are using on the hotbar (1-9).
+	InputBox, vvMacro1, Macro Button 1, The button number for the first in-game macro you are using on the hotbar (1-9).
 	if ErrorLevel
 	{
 		MsgBox,0,Error 1,This soon??,1
 		return
 	}
-	ChtoHex(Macro1)
-	Macro1key := tempkey
-	if Macro1 = =
-		Macro1key := 0xBB
-	if Macro1 = -
-		Macro1key := 0xBD
-	InputBox, Macro1Sleep, Macro 1 Wait, The time it takes in seconds to run your macro.
-	if ErrorLevel OR !Macro1Sleep 
+	ChtoHex(vvMacro1)
+	vvMacro1key := tempkey
+	if vvMacro1 = =
+		vvMacro1key := 0xBB
+	if vvMacro1 = -
+		vvMacro1key := 0xBD
+	InputBox, vvMacro1Sleep, Macro 1 Wait, The time it takes in seconds to run your macro.
+	if ErrorLevel OR !vvMacro1Sleep 
 	{
 		MsgBox,0,Error 1,Fine press cancel! you'll just have to do it all again.,1
 		ParametersInput()
 		return
 	}
-	InputBox, Macro2, Macro Button 2, The button number for the second in-game macro you are using on the hotbar (1-9).
+	InputBox, vMacro2, Macro Button 2, The button number for the second in-game macro you are using on the hotbar (1-9).
 	if ErrorLevel
 	{
 		MsgBox,0,Error 2,Why is this cancel button even here?.,1
 		ParametersInput()
 		return
 	}
-	ChtoHex(Macro2)
-	Macro2key := tempkey
-	if Macro2 = =
-		Macro2key := 0xBB
-	if Macro2 = -
-		Macro2key := 0xBD
-	InputBox, Macro2Sleep, Macro 2 Delay Time, The time it takes in seconds to run your macro.
-	if ErrorLevel OR !Macro2Sleep 
+	ChtoHex(vMacro2)
+	vMacro2key := tempkey
+	if vMacro2 = =
+		vMacro2key := 0xBB
+	if vMacro2 = -
+		vMacro2key := 0xBD
+	InputBox, vMacro2Sleep, Macro 2 Delay Time, The time it takes in seconds to run your macro.
+	if ErrorLevel OR !vMacro2Sleep 
 	{
 		MsgBox,0,Error 1,Bleh!.,1
 		ParametersInput()
 		return
 	}
-	InputBox, ItemsNum, NumberOfItems, The total number of crafts you want to make.
-	if ErrorLevel OR !ItemsNum 
+	InputBox, vItemsNum, NumberOfItems, The total number of crafts you want to make.
+	if ErrorLevel OR !vItemsNum 
 	{
 		MsgBox,0,Error 1,Fine press cancel! you'll just have to do it all again.,1
 		ParametersInput()
@@ -204,16 +245,16 @@ ParametersInput()
 		FoodTime = 0
 		UsingFood = 0
 	}
-	CraftTime := Macro1Sleep + Macro2Sleep + 8
-	TotalTimeCalc := ((CraftTime * ItemsNum) / 60 )
+	CraftTime := vvMacro1Sleep + vMacro2Sleep + 8
+	TotalTimeCalc := ((CraftTime * vItemsNum) / 60 )
 	TotalTime := Round(TotalTimeCalc,2)
 	FoodLoopCalc := (FoodTime * 60) / CraftTime
 	FoodLoop := Floor(FoodLoopCalc)
-	NumOfFoodUsesCalc := ItemsNum / FoodLoop
+	NumOfFoodUsesCalc := vItemsNum / FoodLoop
 	NumOfFoodUses := Ceil(NumOfFoodUsesCalc)
-	ItemsLeft := ItemsNum
+	ItemsLeft := vItemsNum
 	
-	MsgBox,4,Parameters, Your selections:`n`nFirst macro Button = %Macro1% `nMacro one wait time = %Macro1Sleep%`n`nSecond Macro Button = %Macro2%`nMacro two wait time = %Macro2Sleep%`n`nNumber of items to craft = %ItemsNum%`n`nNumber of Crafts per Food Cycle = %FoodLoop%`nTotal time to complete the craft = %TotalTime% minutes `n`n Is this correct?,
+	MsgBox,4,Parameters, Your selections:`n`nFirst macro Button = %vvMacro1% `nMacro one wait time = %vMacro1Sleep%`n`nSecond Macro Button = %vMacro2%`nMacro two wait time = %vMacro2Sleep%`n`nNumber of items to craft = %vItemsNum%`n`nNumber of Crafts per Food Cycle = %FoodLoop%`nTotal time to complete the craft = %TotalTime% minutes `n`n Is this correct?,
 		IfMsgBox No
 	{	
 		ParametersInput()
@@ -224,18 +265,18 @@ return
 
 FoodSetup()
 {
-	InputBox, Fooding, Food Button, The button number on the hotbar (0 - =) that is pressed to use food., ,320,240,,,,,=
+	InputBox, vFooding, Food Button, The button number on the hotbar (0 - =) that is pressed to use food., ,320,240,,,,,=
 	if ErrorLevel 
 	{
 		MsgBox,0,Error 1,Bleh!.,1
 		return
 	}
-	ChtoHex(Fooding)
-	Foodingkey := tempkey
-	if Fooding = =
-		Foodingkey := 0xBB
-	if Fooding = -
-		Foodingkey := 0xBD
+	ChtoHex(vFooding)
+	vFoodingkey := tempkey
+	if vFooding = =
+		vFoodingkey := 0xBB
+	if vFooding = -
+		vFoodingkey := 0xBD
 	InputBox, FoodTime, Duration of Food, The number of minutes the food last for (usually 30)., ,320,240,,,,,30
 	if ErrorLevel OR !FoodTime 
 	{
@@ -266,7 +307,7 @@ CraftStart()
 	}
 	else
 	{
-		Loop, %ItemsNum%
+		Loop, %vItemsNum%
 		{
 			Craft()
 		}
@@ -287,21 +328,17 @@ Craft()
 	Numpad0Key() 
 	Sleep 1650
 	;WinActivate,  ahk_class FFXIVGAME,,,
-	PostMessage, 0x100, Macro1key,,, ahk_pid %pid1% 
+	PostMessage, 0x100, vMacro1key,,, ahk_pid %pid1% 
 		Sleep 75
-	PostMessage, 0x101, Macro1key,,, ahk_pid %pid1% 
-	Macro1Sleeping := Macro1Sleep * 1000
-	Sleep %Macro1Sleeping%
+	PostMessage, 0x101, vMacro1key,,, ahk_pid %pid1% 
+	vMacro1Sleeping := vMacro1Sleep * 1000
+	Sleep %vMacro1Sleeping%
 	;WinActivate,  ahk_class FFXIVGAME,,,
-	PostMessage, 0x100, Macro2key,,, ahk_pid %pid1% 
+	PostMessage, 0x100, vMacro2key,,, ahk_pid %pid1% 
 		Sleep 75
-	PostMessage, 0x101, Macro2key,,, ahk_pid %pid1% 
-	Macro2Sleeping := Macro2Sleep * 1000
-	Sleep %Macro2Sleeping%
-	Sleep 2000
-	Numpad0Key()
-	Sleep 100
-	Numpad0Key()
+	PostMessage, 0x101, vMacro2key,,, ahk_pid %pid1% 
+	vMacro2Sleeping := vMacro2Sleep * 1000
+	Sleep %vMacro2Sleeping%	
 	ItemsLeft-=1
 	Sleep 4000
 }
@@ -312,9 +349,9 @@ UseFood()
 	Sleep 2000
 	EscKey()
 	Sleep 3000
-	PostMessage, 0x100, Foodingkey,,, ahk_pid %pid1% 
+	PostMessage, 0x100, vFoodingkey,,, ahk_pid %pid1% 
 		Sleep 75
-	PostMessage, 0x101, Foodingkey,,, ahk_pid %pid1% 
+	PostMessage, 0x101, vFoodingkey,,, ahk_pid %pid1% 
 	Sleep 4000
 	NKey()
 	Sleep 500

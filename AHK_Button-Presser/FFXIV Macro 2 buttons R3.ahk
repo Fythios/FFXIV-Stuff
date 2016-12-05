@@ -13,6 +13,7 @@
 ; 1 sec = 1000, 1 min = 60000, 1 hour = 3600000, (33s * 100) = 3300000
 ;
 
+
 global PauseStatus = 0
 global Macro1 = 0
 global Macro1key = 0
@@ -47,8 +48,8 @@ Loop, %id%
 
 ;MsgBox, %this_pid%
 
-MsgBox,0,Intro, This simply presses buttons for you`, make sure you have the needed mats!`nYou can press Alt + Q to quit or the Pause/Break key to pause the program at any time.`n-Ava,3
-MsgBox,0,Preparation, Please be on the crafting menu with the item you want to craft selected and the materials for it as well.,3
+MsgBox,0,Intro, This simply presses buttons for you`, make sure you have the needed mats!`nYou can press Alt + Q to quit or the Pause/Break key to pause the program at any time.`n-Ava,5
+MsgBox,0,Preparation, Please be on the crafting menu with the item you want to craft selected and the materials for it as well.`nPress Ctrl+H for help on how to use and setup this program,5
 
 
 ParametersInput()
@@ -101,16 +102,18 @@ Loop, 1
 }
 */
 
+;----------------HotKeys----------------
+!q::ExitApp
+
 AppsKey::
 {
 	WinMinimize, FINAL FANTASY XIV
 	return
 }
 
-
 ^!m::
 {
-	SplashTextOn, 200, 50, Start, The crafting Macro is starting!!
+	SplashTextOn, 180,60, Start, The crafting Macro is starting!!
 	sleep 2000
 	SplashTextOff
 	sleep 1000
@@ -119,11 +122,6 @@ AppsKey::
 	}
 	ExitApp
 }
-
-
-;----------------HotKeys----------------
-
-!q::ExitApp
 
 Pause::
 {
@@ -141,6 +139,8 @@ Pause::
 	}
 	return
 }
+
+
 ;----------------HotKeysEND-------------
 
 
@@ -276,13 +276,15 @@ CraftStart()
 
 Craft()
 {
-	SplashTextOn, 200, 50, Items To Craft, There are %ItemsLeft% left to make.
+	SplashTextOn, 180,60, Items To Craft, There are %ItemsLeft% left to make.
 	;WinActivate,  ahk_class FFXIVGAME,,,
+	Sleep 400
+	SplashTextOff
+	Sleep 200
 	Numpad0Key()
 	Sleep 500
 	Numpad0Key()
 	Sleep 850
-	SplashTextOff
 	Numpad0Key() 
 	Sleep 1650
 	;WinActivate,  ahk_class FFXIVGAME,,,
